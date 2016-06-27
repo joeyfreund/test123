@@ -7,3 +7,10 @@ describe('Array', function() {
     });
   });
 });
+
+describe('hello.js module', function() {
+  it('should have a sayHello function.', function () {
+    var hello = require('../src/hello.js');
+    assert.typeOf(hello.sayHello, 'function');
+  });
+});

@@ -1,2 +1,3 @@
+var hello = require('./hello.js');
 
-console.log('Hello World');
+hello.sayHello('Dan');

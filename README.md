@@ -27,3 +27,11 @@ Once we change the `test` script in `package.json`, we can `npm test`.
  * Now, you can go to Travis-CI and see the build.
 
  We can embed the [![Build Status](https://travis-ci.org/joeyfreund/test123.svg?branch=master)](https://travis-ci.org/joeyfreund/test123) badge to indicate the status of the latest build.
+
+### Using modules
+
+ * Create `src/hello.js`
+ * In `src/hello.js`, we populate the `module.exports` with values (usually functions).
+ * In other modules (e.g. `src/index.js`) we `require(PATH_OR_NAME)`, which gives us back the `exports` object.
+ * After updating the code in `index.js` to use the function from `hello.js`, you can `npm start`.
+ * Also, update the tests, and `npm test`.
