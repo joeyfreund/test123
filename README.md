@@ -7,7 +7,7 @@ Some notes and examples of basic NodeJS (and JS in general) concepts.
  * In a new directory, run `npm init` (guide you through creating `package.json`).
  * Create `src/index.js` (or whichever path appears as `main` in your `package.json`)
  * Edit `package.json`, and add the `start` script (the to `scripts` objects)
- * Run `npm run start`
+ * Run `npm start`
 
 ### Add unit tests
 
@@ -17,4 +17,4 @@ Some notes and examples of basic NodeJS (and JS in general) concepts.
  * Now, run the tests using `node_modules/.bin/mocha`           
    _Note:_ We run `mocha` from `node_modules/.bin`, so we don't depend on Mocha being globally available.
 
-Once we change the `test` script in `package.json`, we can `npm run test`.
+Once we change the `test` script in `package.json`, we can `npm test`.
