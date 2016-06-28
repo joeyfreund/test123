@@ -35,3 +35,20 @@ Once we change the `test` script in `package.json`, we can `npm test`.
  * In other modules (e.g. `src/index.js`) we `require(PATH_OR_NAME)`, which gives us back the `exports` object.
  * After updating the code in `index.js` to use the function from `hello.js`, you can `npm start`.
  * Also, update the tests, and `npm test`.
+
+### It's 2016, let's use ES6
+
+ES6 (aka ES2015) is the newest standard of JavaScript.
+It's great, but there's one problem - It's fully supported everywhere (in fact, in most runtimes it's not fully supported yet).          
+
+The solution - Transpile (i.e. translate/compile) ES6 source to ES5 (or any other JavaScript specs that are fully supported). Currently, the industry stanrad is [Babel](https://babeljs.io/).
+
+First, setup dependencies:
+
+ * Install dependencies `npm install --save-dev babel-core babel-cli babel-preset-es2015`
+ * Configure Babel default by creating `.babelrc`
+
+Next, we can update our `src/` and `test/` code to use ES6.      
+Finally, make sure that `npm start` or `npm test` use the transpiled (**not** the original) source code:
+
+ * Setup the `scripts` object in `package.json`.
