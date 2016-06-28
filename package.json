@@ -2,23 +2,23 @@
   "name": "node-js-intro",
   "version": "1.0.0",
   "description": "A collection of notes-about and examples-of basic concepts from NodeJS and JS in general",
-
-
   "scripts": {
     "compile": "babel --presets es2015 -d lib/ src/",
     "compile:watch": "npm run compile -- -w",
     "test": "npm run compile && mocha --compilers js:babel-core/register",
     "start": "node lib/index.js"
   },
-
   "author": "Joey Freund",
   "license": "MIT",
-
   "devDependencies": {
     "babel-cli": "^6.10.1",
     "babel-core": "^6.10.4",
     "babel-preset-es2015": "^6.9.0",
     "chai": "^3.5.0",
     "mocha": "^2.5.3"
+  },
+  "dependencies": {
+    "cheerio": "^0.20.0",
+    "request": "^2.72.0"
   }
 }
