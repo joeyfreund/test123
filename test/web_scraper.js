@@ -20,9 +20,9 @@ describe('WebScraper', function() {
       scraper.scrape(html, callback);
 
       expect(callback.callCount).to.equal(3);
-      expect(callback.calledWith(1)).to.be.ok;
-      expect(callback.calledWith(2)).to.be.ok;
-      expect(callback.calledWith(3)).to.be.ok;
+      expect(callback.calledWith(null, 1)).to.be.ok;
+      expect(callback.calledWith(null, 2)).to.be.ok;
+      expect(callback.calledWith(null, 3)).to.be.ok;
   });
 
 
@@ -30,8 +30,32 @@ describe('WebScraper', function() {
       let scraper = new WebScraper('li', e => Number(e.text()));
       let html = '<ul><li>1</li><li>2</li><li>3</li></ul>';
 
-      var callback = (x) => {};
+      var callback = (err, item) => {};
       expect(scraper.scrape(html, callback)).to.be.undefined;
   });
+
+
+  describe('Error handling', function(){
+
+      // Async'
+      it('should pass an error to the callback, when it occurs', function (done) {
+          let scraper = new WebScraper('li', e => Number(e.text()));
+          let html = null;
+
+          scraper.scrape(html, (err, item) => {
+              expect(err).to.not.be.null;
+              done();
+          });
+      });
+
+      // Sync'
+      it('should throw errors when a callback is not provided', function () {
+          let scraper = new WebScraper('li', e => Number(e.text()));
+          let html = null;
+          expect(() => scraper.scrape(html)).to.throw(Error);
+      });
+
+  });
+
 
 });

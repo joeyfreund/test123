@@ -8,10 +8,9 @@ import WebScraper from './web_scraper.js'
 // Params:
 //  - url, String
 //  - scraper, WebScraper
-//  - onData, function(arrayOfObjects)
-//  - onError, function(errorObj)
+//  - callback, function(err, data), where data is an array of objects.
 //
-function scrapeURL(url, scraper, onData, onError = (ex => {})){
+function scrapeURL(url, scraper, callback){
   fetch(url).then(response => {
       if (response.status >= 400) {
   			throw new Error(`Bad response from server (status: ${response.status})`);
@@ -19,8 +18,8 @@ function scrapeURL(url, scraper, onData, onError = (ex => {})){
       return response.text(); // text() consumes a stream (i.e. can only be called once)
     })
     .then(body => scraper.scrape(body))
-    .then(data => onData(data))
-    .catch(ex => onError(ex));
+    .then(data => callback(null, data))
+    .catch(ex => callback(ex, null));
 }
 
 
@@ -42,11 +41,10 @@ if(process.argv.length != 3){
 let url = process.argv[2];
 
 // Scrape the URL and print JSON data to the console
-scrapeURL(url, scraper,
-  data => {
-    console.log(JSON.stringify(data));
-  },
-  error => {
-    console.log('ERROR: ', error);
-  }
-);
+scrapeURL(url, scraper, (error, data) => {
+    if(error){
+        console.log('ERROR: ', error);
+    } else {
+        console.log(JSON.stringify(data));
+    }
+});

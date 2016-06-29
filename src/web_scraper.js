@@ -10,24 +10,24 @@ export default class WebScraper{
 
   //
   // html, String
-  // callback, function(Obj)
+  // callback, (Optional) function(error, item)
   //
   scrape(html, callback){
-    let results = [];
+    let results = callback ? undefined : [];
+    callback = callback || ((err, item) => {
+        if(err) throw err;  else results.push(item);
+    });
 
-    // If a callback was provided, we do not return a result
-    if(callback){
-      results = undefined;
-    } else {
-      callback = (item) => { results.push(item); }
+    try {
+      let $ = cheerio.load(html);
+      $(this.selector).each((_, item) => {
+          callback(null, this.transformer($(item)));
+      });
+    } catch (err) {
+      callback(err, null);
     }
-
-    // Scrape the HTML content ...
-    let $ = cheerio.load(html);
-    $(this.selector).each((_, item) => { callback(this.transformer($(item))); });
 
     return results;
   }
-
 
 }
