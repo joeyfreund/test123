@@ -62,3 +62,7 @@ small web scraping program in `index.js`.
 
 OK, we wrote a quick script, but now, let's do things right ...
 Let's create some unit tests and the `WebScraper` class to pass them.
+
+Finally, we update the script to use our `WebScraper` and the `isomorphic-fetch`
+library. We now have a small utility that scrapes catalog pages from
+www.ssense.com and prints JSON data to the console.
