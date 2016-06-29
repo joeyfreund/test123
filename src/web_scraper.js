@@ -8,13 +8,23 @@ export default class WebScraper{
     Object.assign(this, { selector, transformer });
   }
 
-  scrape(html){
+  //
+  // html, String
+  // callback, function(Obj)
+  //
+  scrape(html, callback){
     let results = [];
 
+    // If a callback was provided, we do not return a result
+    if(callback){
+      results = undefined;
+    } else {
+      callback = (item) => { results.push(item); }
+    }
+
+    // Scrape the HTML content ...
     let $ = cheerio.load(html);
-    $(this.selector).each((_, item) => {
-      results.push(this.transformer($(item)));
-    });
+    $(this.selector).each((_, item) => { callback(this.transformer($(item))); });
 
     return results;
   }

@@ -66,3 +66,7 @@ Let's create some unit tests and the `WebScraper` class to pass them.
 Finally, we update the script to use our `WebScraper` and the `isomorphic-fetch`
 library. We now have a small utility that scrapes catalog pages from
 www.ssense.com and prints JSON data to the console.
+
+Next, we improve the API by supporting both sync and async operations -
+Change `scrape(html)` to `scrape(html, callback)` and the tests that specify the
+behaviour. (Q: Why/when is it important?)
