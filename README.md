@@ -52,3 +52,13 @@ Next, we can update our `src/` and `test/` code to use ES6.
 Finally, make sure that `npm start` or `npm test` use the transpiled (**not** the original) source code:
 
  * Setup the `scripts` object in `package.json`.
+
+----
+
+### Async programming
+
+To get a better feel for what programming in Node.js is like, we'll write a
+small web scraping program in `index.js`.
+
+OK, we wrote a quick script, but now, let's do things right ...
+Let's create some unit tests and the `WebScraper` class to pass them.
