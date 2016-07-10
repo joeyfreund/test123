@@ -6,7 +6,8 @@
     "compile": "babel --presets es2015 -d lib/ src/",
     "compile:watch": "npm run compile -- -w",
     "test": "npm run compile && mocha --compilers js:babel-core/register",
-    "start": "node lib/index.js"
+    "start": "node lib/index.js",
+    "populate_db": "node lib/populate_db.js"
   },
   "author": "Joey Freund",
   "license": "MIT",
@@ -21,6 +22,7 @@
   "dependencies": {
     "cheerio": "^0.20.0",
     "es6-promise": "^3.2.1",
-    "isomorphic-fetch": "^2.2.1"
+    "isomorphic-fetch": "^2.2.1",
+    "mysql": "^2.11.1"
   }
 }

@@ -39,7 +39,7 @@ Once we change the `test` script in `package.json`, we can `npm test`.
 ### It's 2016, let's use ES6
 
 ES6 (aka ES2015) is the newest standard of JavaScript.
-It's great, but there's one problem - It's fully supported everywhere (in fact, in most runtimes it's not fully supported yet).          
+It's great, but there's one problem - It's not fully supported everywhere (in fact, in most runtimes it's not fully supported yet).          
 
 The solution - Transpile (i.e. translate/compile) ES6 source to ES5 (or any other JavaScript specs that are fully supported). Currently, the industry stanrad is [Babel](https://babeljs.io/).
 
@@ -70,3 +70,57 @@ www.ssense.com and prints JSON data to the console.
 Next, we improve the API by supporting both sync and async operations -
 Change `scrape(html)` to `scrape(html, callback)` and the tests that specify the
 behaviour. (Q: Why/when is it important?)
+
+
+----
+
+### Using a database
+
+Next, we will insert the information we scrape into a database.
+If you have Docker installed, you can easily start a test MySQL server:
+
+```
+docker run -p3306:3306 --name dev-server -e MYSQL_ROOT_PASSWORD=123456 -d mysql
+```
+
+ > `-p3306:3306` is used for port forwarding, to allow us to connect to the
+ > server from the host machine at `localhost:3306`.
+
+
+#### Creating the table
+
+Before we run our script, let's create a table for it to store the data.
+
+First, find out the ip of your container:
+```
+# Find the id of the container
+docker ps
+# Get the IP
+docker inspect --format '{{ .NetworkSettings.IPAddress }}' CONTAINER_ID
+```
+
+Then, connect to the server from a MySQL client:
+
+```
+docker run -it --link dev-server:mysql --rm mysql sh -c 'exec mysql -hCONTAINER_IP -P3306 -uroot -p123456'
+```
+
+And, setup the database and table(s):
+
+```sql
+create database test_db;
+use test_db;
+
+CREATE TABLE products (
+  sku VARCHAR(24) NOT NULL,
+  brand VARCHAR(128) NOT NULL,
+  name VARCHAR(128) NOT NULL,
+  image VARCHAR(1024) NOT NULL,
+  PRIMARY KEY (sku)
+);
+```
+
+#### Our `populate_db` script
+
+This script is very similar to our index.js, only it saves the scraped data in
+the database.
