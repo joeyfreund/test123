@@ -49,33 +49,39 @@ var db = mysql.createConnection({
   database : 'test_db'
 });
 
+function main(){
+  // Scrape the URL and print JSON data to the console
+  scrapeURL(url, scraper, (error, data) => {
+      if(error){
+          console.log('ERROR: ', error);
+      } else {
+          data.forEach(row => {
+            db.query(
+              "INSERT INTO products (sku, brand, name, image) VALUES (?,?,?,?) " +
+              "ON DUPLICATE KEY UPDATE brand=?, name=?, image=?",
+              [row.sku, row.brand, row.name, row.image, row.brand, row.name, row.image],
+              function(err, result){
+                if (err){
+                  console.log('ERROR:', err);
+                }
+              }
+            );
+          });
+      }
+  });
+}
+
+
+
 db.connect(function(err, data){
   if(err){
     console.log('ERROR', err);
     process.exit(1);
   }
+  main();
 });
 
 
-// Scrape the URL and print JSON data to the console
-scrapeURL(url, scraper, (error, data) => {
-    if(error){
-        console.log('ERROR: ', error);
-    } else {
-        data.forEach(row => {
-          db.query(
-            "INSERT INTO products (sku, brand, name, image) VALUES (?,?,?,?) " +
-            "ON DUPLICATE KEY UPDATE brand=?, name=?, image=?",
-            [row.sku, row.brand, row.name, row.image, row.brand, row.name, row.image],
-            function(err, result){
-              if (err){
-                console.log('ERROR:', err);
-              }
-            }
-          );
-        });
-    }
-});
 
 
 // Close the connection after 3 seconds
